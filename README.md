@@ -70,6 +70,12 @@ Parâmetros
 }
 ```
 
+### Desconectar usuário
+
+```http
+GET http://localhost:5000/sair
+```
+
 ## Obs:
 
 O envio é realizado com base na lista de contatos que já existe no whatsapp, sendo assim o nome enviado deverá ser o mesmo que estar na lista de contato
