@@ -3,19 +3,21 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 from pyvirtualdisplay import Display
-from PIL import Image
-import os
-import base64
 
 class WhatsappBot:
     def __init__(self):   
         self.interativo = False
-        # self.display = Display(visible=0, size=(1300, 900))
+        # self.display = Display(visible=0, size=(1000, 900))
         # self.display.start()
         options = webdriver.ChromeOptions()
         options.add_argument('lang=pt-br')
         # options.add_argument('--headless')
         # options.add_argument('--no-startup-window')
+        # options.add_argument('--disable-infobars')
+        # options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--no-sandbox')
+        options.add_argument( '--disable-setuid-sandbox')
+        # options.add_argument('--remote-debugging-port=9222')
         self.driver = webdriver.Chrome('./lib/chromedriver', chrome_options=options)
         self.driver.get('https://web.whatsapp.com')
 
@@ -61,17 +63,21 @@ class WhatsappBot:
         error = 0
         for grupo_ou_pessoa in lista_contato:
             try:
-                chat_box_busca = self.driver.find_element_by_class_name('_2FVVk')#_2FbwG _2FVVk
-                chat_box_busca.click()
-                time.sleep(1)
-                chat_box_busca = self.driver.find_element_by_class_name('_3FRCZ')
-                time.sleep(1)
-                chat_box_busca.send_keys(grupo_ou_pessoa)
-                time.sleep(1)
-                campo_grupo = self.driver.find_element_by_xpath(
-                    f"//span[@title='{grupo_ou_pessoa}']")
-                time.sleep(1)
-                campo_grupo.click()
+                # chat_box_busca = self.driver.find_element_by_class_name('_2FVVk')#_2FbwG _2FVVk
+                # chat_box_busca.click()
+                # time.sleep(1)
+                # chat_box_busca = self.driver.find_element_by_class_name('_3FRCZ')
+                # time.sleep(1)
+                # chat_box_busca.send_keys(grupo_ou_pessoa)
+                # time.sleep(1)
+                # campo_grupo = self.driver.find_element_by_xpath(
+                #     f"//span[@title='{grupo_ou_pessoa}']")
+                # time.sleep(1)
+                # campo_grupo.click()
+
+                self.driver.get('https://web.whatsapp.com/send?phone='+grupo_ou_pessoa+'')
+                time.sleep(4)
+
                 chat_box = self.driver.find_element_by_class_name('_3uMse')
                 time.sleep(1)
                 chat_box.click()
@@ -89,21 +95,24 @@ class WhatsappBot:
 
     def abre_conversa(self, contato):
         try:
-            # Seleciona a caixa de pesquisa de conversa
-            self.caixa_de_pesquisa = self.driver.find_element_by_class_name('_2FVVk')
-            time.sleep(2)
-            # Digita o nome ou numero do contato
-            chat_box_busca = self.driver.find_element_by_class_name('_3FRCZ')
-            time.sleep(2)
-            chat_box_busca.send_keys(contato)
-            # Seleciona o contato
-            self.contato = self.driver.find_element_by_xpath(
-                f"//span[@title='{contato}']")
-            time.sleep(2)
-            # Entra na conversa
-            self.contato.click()
+            self.driver.get('https://web.whatsapp.com/send?phone='+contato+'')
+            time.sleep(4)
+            # # Seleciona a caixa de pesquisa de conversa
+            # self.caixa_de_pesquisa = self.driver.find_element_by_class_name('_2FVVk')
+            # time.sleep(2)
+            # # Digita o nome ou numero do contato
+            # chat_box_busca = self.driver.find_element_by_class_name('_3FRCZ')
+            # time.sleep(2)
+            # chat_box_busca.send_keys(contato)
+            # # Seleciona o contato
+            # self.contato = self.driver.find_element_by_xpath(
+            #     f"//span[@title='{contato}']")
+            # time.sleep(2)
+            # # Entra na conversa
+            # self.contato.click()
             return True
         except Exception as e:
+            print("Contato não encontrado",e)
             return False
 
     def envia_msg(self, msg):

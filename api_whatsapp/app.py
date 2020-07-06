@@ -1,10 +1,13 @@
 from flask import Flask, request
 from bot_whtsapp import WhatsappBot
-import asyncio
 
-app = Flask('ApiWhatsapp')
+app = Flask(__name__)
 whatsappWeb = WhatsappBot()
 
+
+@app.route("/",methods=["GET"])
+def index():
+    return gerarResponse(200,"Serviço online")
 
 @app.route("/qrcode",methods=["GET"])
 def get_qrcode():
@@ -68,8 +71,8 @@ def envio_mensagem_massa():
     if "contato" not in body:
         return gerarResponse(400,"O parâmetro contato é obrigatório")
     
-    if len(body['contato']) > 2:
-        return gerarResponse(400,"Limite de contato excedido, API limitada a uma lista contendo 15 contatos")
+    if len(body['contato']) > 10:
+        return gerarResponse(400,"Limite de contato excedido, API limitada a uma lista contendo 10 contatos")
 
     if "mensagem" not in body:
         return gerarResponse(400,"O parâmetro contato é obrigatório")

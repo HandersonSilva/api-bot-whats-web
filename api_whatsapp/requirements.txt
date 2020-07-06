@@ -1,0 +1,5 @@
+Flask
+selenium
+bs4
+BeautifulSoup4
+pyvirtualdisplay

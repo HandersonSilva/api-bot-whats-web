@@ -1,0 +1,6 @@
+dependencias bot api whats
+pip3 install selenium
+pip3 install bs4
+pip3 install pyvirtualdisplay
+pip3 install Display
+sudo apt-get install xvfb
